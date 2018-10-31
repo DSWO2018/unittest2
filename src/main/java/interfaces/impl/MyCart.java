@@ -5,6 +5,7 @@ import interfaces.Product;
 import java.util.ArrayList;
 
 public class MyCart implements interfaces.Cart {
+
     ArrayList<ProductStructure> productList;
 
     public MyCart() {
