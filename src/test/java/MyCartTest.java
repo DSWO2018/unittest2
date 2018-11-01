@@ -1,5 +1,5 @@
-import interfaces.Cart;
-import interfaces.Product;
+import interfaces.impl.iCart;
+import interfaces.impl.iProduct;
 import interfaces.impl.MyCart;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,16 +9,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class MyCartTest {
-    Cart myCart;
-    Product mockedProduct;
-    Product secondMockedProduct;
+    iCart myCart;
+    iProduct mockedProduct;
+    iProduct secondMockedProduct;
 
 
     @Before
     public void setUp(){
         myCart = new MyCart();
-        mockedProduct = mock(Product.class);
-        secondMockedProduct = mock(Product.class);
+        mockedProduct = mock(iProduct.class);
+        secondMockedProduct = mock(iProduct.class);
         when(mockedProduct.getID()).thenReturn(1);
         when(secondMockedProduct.getID()).thenReturn(2);
     }
@@ -62,7 +62,7 @@ public class MyCartTest {
     @Test
     public void testCalculateSubTotalnull() {
         double result = myCart.calculateSubTotal();
-       Assert.assertEquals(0);//Cannot resolve method 'assertEquals(int)'
+       Assert.assertEquals(0,result,0);//Cannot resolve method 'assertEquals(int)'
     }
 
     @Test
@@ -71,14 +71,14 @@ public class MyCartTest {
         when(secondMockedProduct.getId()).thenReturn(1);
         myCart.addProduct(mockedProduct);
         myCart.addProduct(secondMockedProduct);
-        when(mockedProduct.getPrice()).thenReturn(11);
-        when(secondMockedProduct.getPrice()).thenReturn(9);
+        when(mockedProduct.getPrice()).thenReturn(11.0);
+        when(secondMockedProduct.getPrice()).thenReturn(9.0);
         when(mockedProduct.isTaxeable()).thenReturn(true);
         when(secondMockedProduct.isTaxeable()).thenReturn(true);
         myCart.addQuantityToLineItem(0,2);
         myCart.addQuantityToLineItem(1,1);
         double total = myCart.calculateTotal();
-        //Assert.assertEquals(20+20*.16);
+        Assert.assertEquals(20+20*.16,total,.001);//primero va lo que esperas, luego lo que vas a comparar, luego el margen de error +- lo que pongas
     }
 
 
