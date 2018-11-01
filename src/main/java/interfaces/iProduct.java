@@ -1,66 +1,110 @@
 package interfaces.impl;
 
-public class iProduct {
+
+import interfaces.Product;
+
+public class iProduct implements Product {
+
+    //variables del producto? -< product structure?!! para pasarlo con el constructor a myCart.
+    int id;
+    double price = 0;
+    String descripcion;
+    boolean taxeable;
+    String name;
+
+
+    public iProduct(int ID, String name, Double price, String descripcion, boolean taxeable) {
+        //CAMBIAR PARA PONERLOS CON LOS SETTERS.
+        /*this.id = ID;
+        this.price = price;
+        this.taxeable = taxeable;
+        this.descripcion = descripcion;
+        this.name = name;*/
+    setName(name);
+    setPrice(price);
+    setTaxeable(taxeable);
+    setDescripcion(descripcion);
+    setId(ID);
+    }
+
     /**
-     * obtener id.
+     * Get ID.
+     *
      * @return     */
-    public int getId() {
-        return 0;
+    public int getID() {
+        return this.id;
     }
 
     /**
-     *get price.
-     * @return r     */
+     * Get Price.
+     *
+     * @return     */
     public double getPrice() {
-        return 0;
+        return this.price;
     }
 
     /**
-     * obtener descripcion.
+     * Get Descripction.
+     *
      * @return     */
     public String getDescription() {
-        return null;
+        return this.descripcion;
     }
 
     /**
-     * poner precio.
+     * Set Price.
+     *
      * @param price     */
     public void setPrice(double price) {
-
+    this.price=price;
+    }
+    /**
+     * Set ID.
+     *
+     * @param id     */
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
-     * si el producto lleva impuestos o no.
+     * Set Description.
+     *
+     * @param descripcion     */
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+
+
+    /**
+     * Taxeable?.
+     *
      * @return     */
     public boolean isTaxeable() {
-        return false;
+        return this.taxeable;
     }
 
     /**
-     * poner si es taxeable.
+     * set Taxeable.
+     *
      * @param taxeable     */
     public void setTaxeable(boolean taxeable) {
-
+    this.taxeable=taxeable;
     }
 
     /**
-     * obtener nombre.
+     *get Name.
+     *
      * @return     */
     public String getName() {
-        return null;
+        return this.name;
     }
 
     /**
-     * setear nombre.
+     * Set Name.
+     *
      * @param name     */
     public void setName(String name) {
-
-    }
-
-    /**
-     * obtener id.
-     * @return     */
-    public String getID() {
-        return null;
+    this.name=name;
     }
 }

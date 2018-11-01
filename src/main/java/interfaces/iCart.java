@@ -2,7 +2,7 @@ package interfaces.impl;
 
 /**
  * interface iCart. */
-public interface iCart {
+public abstract interface iCart {
     /**
      *
      * @param p .
@@ -12,23 +12,23 @@ public interface iCart {
     /**
      * remover producto.
      * @param p .
-     * @return r     */
+     * @return     */
     String removeProduct(iProduct p);
 
     /**
      *calcular total.
-     * @return r     */
+     * @return     */
     double calculateTotal();
 
     /**
      *calcular total con impuestos.
-     * @return r     */
+     * @return     */
     double calculateSubTotal();
 
     /**
      *calcular impuestos.
-     * @return r     */
-    double calculateTax();
+     * @return     */
+    double calculateTax(double val);
 
     /**
      *calculalr subtotal en lina.
@@ -40,7 +40,7 @@ public interface iCart {
      *agregar cantidad a la linea.
      * @param pos .
      * @param qty .
-     * @return r     */
+     * @return     */
     int addQuantityToLineItem(int pos, int qty);
 
     /**
