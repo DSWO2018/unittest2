@@ -1,7 +1,7 @@
 package interfaces;
 
 public interface Cart {
-    String addProduct(Product product);
+    String addProduct(IProduct product);
 
-    String removeProduct(Product product);
+    String removeProduct(IProduct product);
 }
