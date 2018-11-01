@@ -1,38 +1,35 @@
 import interfaces.Cart;
 import interfaces.Product;
 import interfaces.impl.MyCart;
+import interfaces.impl.MyProduct;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-public class MyCartTest {
+public class IntegrationTest {
     Cart myCart;
-    Product mockedProduct;
-    Product secondMockedProduct;
+    Product product;
+    Product secondProduct;
+    Product thirdProduct;
+    Product fourthProduct;
+
 
 
     @Before
     public void setUp(){
         myCart = new MyCart();
-        mockedProduct = mock(Product.class);
-        secondMockedProduct = mock(Product.class);
-        when(mockedProduct.getId()).thenReturn("1");
-        when(mockedProduct.isTaxeable()).thenReturn(true);
-        when(mockedProduct.getPrice()).thenReturn(1.0);
-        when(secondMockedProduct.getId()).thenReturn("2");
-        when(secondMockedProduct.isTaxeable()).thenReturn(false);
-        when(secondMockedProduct.getPrice()).thenReturn(1.0);
+        product = new MyProduct("1", "Producto 1", "Descripcion producto 1", 1, true);
+        secondProduct = new MyProduct("2", "Producto 2", "Descripcion producto 2", 1, false);
+        thirdProduct = new MyProduct("3", "Producto 3", "Descripcion producto 3", 2, true);
+        fourthProduct = new MyProduct("4", "Producto 4", "Descripcion producto 4", 2, false);
     }
 
     @Test
     public void testAgregadoExitosamente(){
-        String result = myCart.addProduct(mockedProduct);
-        result = myCart.addProduct(secondMockedProduct);
+        String result = myCart.addProduct(product);
+        result = myCart.addProduct(secondProduct);
         Assert.assertEquals("Producto Agregado Exitosamente",result);
-}
+    }
     @Test
     public void testProductoNoSePudoAgregar(){
         String result = myCart.addProduct(null);
@@ -41,51 +38,57 @@ public class MyCartTest {
     @Test
     public void testProductoExistente(){
 
-        String result = myCart.addProduct(mockedProduct);
-        result = myCart.addProduct(secondMockedProduct);
-        String result2 = myCart.addProduct(mockedProduct);
+        String result = myCart.addProduct(product);
+        result = myCart.addProduct(secondProduct);
+        String result2 = myCart.addProduct(product);
         Assert.assertEquals("Producto Ya Existe En El Carrito",result2);
 
     }
     @Test
     public void testProductoNoSePudoRemover(){
-        String result = myCart.removeProduct(mockedProduct);
+        String result = myCart.removeProduct(product);
         Assert.assertEquals("Producto No Se Encuentra En El Carrito",result);
     }
     @Test
     public void testProductoRemovidoExitosamente(){
 
-        String result = myCart.addProduct(mockedProduct);
-        result = myCart.addProduct(secondMockedProduct);
-        String result2 = myCart.removeProduct(mockedProduct);
+        String result = myCart.addProduct(product);
+        result = myCart.addProduct(secondProduct);
+        String result2 = myCart.removeProduct(product);
         Assert.assertEquals("Producto Removido Exitosamente",result2);
     }
 
     @Test
     public void testCalcularTotal(){
-        myCart.addProduct(mockedProduct);
-        myCart.addProduct(secondMockedProduct);
+        myCart.addProduct(product);
+        myCart.addProduct(secondProduct);
+        myCart.addProduct(thirdProduct);
+        myCart.addProduct(fourthProduct);
         double result = myCart.calculateTotal();
-        Assert.assertEquals(2.16, result, 0);
+        Assert.assertEquals(6.48, result, 0);
     }
     @Test
     public void testCalcularSubtotal(){
-        myCart.addProduct(mockedProduct);
-        myCart.addProduct(secondMockedProduct);
+        myCart.addProduct(product);
+        myCart.addProduct(secondProduct);
+        myCart.addProduct(thirdProduct);
+        myCart.addProduct(fourthProduct);
         double subtotal = myCart.calculateSubtotal();
-        Assert.assertEquals(2, subtotal,0);
+        Assert.assertEquals(6, subtotal,0);
     }
     @Test
     public void testCalcularTax(){
-        myCart.addProduct(mockedProduct);
-        myCart.addProduct(secondMockedProduct);
+        myCart.addProduct(product);
+        myCart.addProduct(secondProduct);
+        myCart.addProduct(thirdProduct);
+        myCart.addProduct(fourthProduct);
         double tax = myCart.calculateTax();
-        Assert.assertEquals(0.16, tax, 0);
+        Assert.assertEquals(0.48, tax, 0);
     }
 
     @Test
     public void testCalcularSubtotalLinea(){
-        myCart.addProduct(mockedProduct);
+        myCart.addProduct(product);
         double subtotal = myCart.calculateLineItemSubtotal(0);
         Assert.assertEquals(1, subtotal, 0);
     }
@@ -97,28 +100,28 @@ public class MyCartTest {
 
     @Test
     public void testCalcularSubtotalLineaWrongPos(){
-        myCart.addProduct(mockedProduct);
+        myCart.addProduct(product);
         double subtotal = myCart.calculateLineItemSubtotal(0);
         Assert.assertEquals(1, subtotal, 0);
     }
 
     @Test
     public void testAgregarCantidadLinea(){
-        myCart.addProduct(mockedProduct);
+        myCart.addProduct(product);
         int qty = myCart.addQuantityToLineItem(0,2);
         Assert.assertEquals(3,qty);
     }
 
     @Test
     public void testAgregarCantidadLineaWrongPos(){
-        myCart.addProduct(mockedProduct);
+        myCart.addProduct(product);
         int qty = myCart.addQuantityToLineItem(1,2);
         Assert.assertEquals(-1,qty);
     }
 
     @Test
     public void testRemoverCantidadLinea(){
-        myCart.addProduct(mockedProduct);
+        myCart.addProduct(product);
         myCart.addQuantityToLineItem(0,2);
         int qty = myCart.removeQuantityToLineItem(0,1);
         Assert.assertEquals(2,qty);
@@ -126,7 +129,7 @@ public class MyCartTest {
 
     @Test
     public void testRemoverCantidadLineaWrongPos(){
-        myCart.addProduct(mockedProduct);
+        myCart.addProduct(product);
         myCart.addQuantityToLineItem(0,2);
         int qty = myCart.removeQuantityToLineItem(1,1);
         Assert.assertEquals(-1,qty);
