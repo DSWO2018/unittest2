@@ -71,7 +71,7 @@ public class MyCartTest {
         double tax = myCart.calculateTax();
         Assert.assertEquals(0, tax, 0);
     }
-
+ 
     @Test
     public void testCalcularSubtotalLinea(){
         double subtotal = myCart.calculateLineItemSubtotal(0);
