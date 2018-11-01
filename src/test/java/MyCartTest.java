@@ -59,4 +59,28 @@ public class MyCartTest {
     }
 
 
+    @Test
+    public void testCalculateSubTotalnull() {
+        double result = myCart.calculateSubTotal();
+       Assert.assertEquals(0);//Cannot resolve method 'assertEquals(int)'
+    }
+
+    @Test
+    public void testCalculateTotal() {
+        when(mockedProduct.getId()).thenReturn(0);
+        when(secondMockedProduct.getId()).thenReturn(1);
+        myCart.addProduct(mockedProduct);
+        myCart.addProduct(secondMockedProduct);
+        when(mockedProduct.getPrice()).thenReturn(11);
+        when(secondMockedProduct.getPrice()).thenReturn(9);
+        when(mockedProduct.isTaxeable()).thenReturn(true);
+        when(secondMockedProduct.isTaxeable()).thenReturn(true);
+        myCart.addQuantityToLineItem(0,2);
+        myCart.addQuantityToLineItem(1,1);
+        double total = myCart.calculateTotal();
+        //Assert.assertEquals(20+20*.16);
+    }
+
+
+
 }
