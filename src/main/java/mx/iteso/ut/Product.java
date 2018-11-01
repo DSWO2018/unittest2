@@ -80,7 +80,8 @@ public class Product implements IProduct {
      * @param d description
      * @param i id
      */
-    public Product(final String n, final double p, final String  d, final int i) {
+    public Product(final String n, final double p,
+                   final String  d, final int i) {
         this.id = i;
         this.name = n;
         this.description = d;
@@ -89,9 +90,9 @@ public class Product implements IProduct {
     }
 
     /**
-     * @return
+     * @return id
      */
-    public int getId() {
+    public final int getId() {
         return this.id;
     }
 
@@ -99,7 +100,7 @@ public class Product implements IProduct {
      *
      * @return r
      */
-    public double getPrice() {
+    public final double getPrice() {
         return this.price;
     }
 
@@ -107,7 +108,7 @@ public class Product implements IProduct {
      *
      * @return descripcion del producto.
      */
-    public String getDescription(){
+    public final String getDescription() {
         return this.description;
     }
 
@@ -115,7 +116,7 @@ public class Product implements IProduct {
      *
      * @param p precio del producto.
      */
-    public void setPrice(final double p){
+    public final void setPrice(final double p) {
         this.price = p;
     }
 
@@ -123,7 +124,7 @@ public class Product implements IProduct {
      *
      * @return si es taxeable o no
      */
-    public boolean isTaxable() {
+    public final boolean isTaxable() {
         return this.taxable;
     }
 
@@ -131,7 +132,7 @@ public class Product implements IProduct {
      *
      * @param t definimos si es taxeable o no
      */
-    public void setTaxable(final boolean t) {
+    public final void setTaxable(final boolean t) {
         this.taxable = t;
     }
 
@@ -139,7 +140,7 @@ public class Product implements IProduct {
      *
      * @return nombre del producto.
      */
-    public String getName() {
+    public final String getName() {
         return this.name;
     }
 
@@ -147,7 +148,7 @@ public class Product implements IProduct {
      *
      * @param n definimos el nombre.
      */
-    public void setName(final String n) {
+    public final void setName(final String n) {
         this.name = n;
     }
 }
