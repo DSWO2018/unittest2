@@ -13,8 +13,8 @@ public interface ICart {
 
     /**
      *
-     * @param p p.
-     * @return r
+     * @param p proucto
+     * @return resultado de la operación.
      */
     String removeProduct(IProduct p);
 

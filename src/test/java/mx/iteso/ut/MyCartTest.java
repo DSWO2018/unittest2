@@ -65,7 +65,11 @@ public class MyCartTest {
 
     @Test
     public void testQuantityAddedToLineItemFail() {
-        int result = carrito.addQuantityToLineItem(0,5);
+        when(mockedProduct1.getId()).thenReturn(1);
+        when(mockedProduct2.getId()).thenReturn(2);
+        carrito.addProduct(mockedProduct1);
+        carrito.addProduct(mockedProduct2);
+        int result = carrito.addQuantityToLineItem(2,5);
         assertEquals(-1,result); //Como el producto no fue agregado en un principio, no se le puede sumar nada
     }
 
@@ -79,7 +83,11 @@ public class MyCartTest {
 
     @Test
     public void testRemoveQuantityToLineItemNonExistentProduct() {
-        int result = carrito.removeQuantityToLineItem(0,5);
+        when(mockedProduct1.getId()).thenReturn(1);
+        when(mockedProduct2.getId()).thenReturn(2);
+        carrito.addProduct(mockedProduct1);
+        carrito.addProduct(mockedProduct2);
+        int result = carrito.removeQuantityToLineItem(2,5);
         assertEquals(-1,result);
     }
 
@@ -87,6 +95,8 @@ public class MyCartTest {
     public void testRemoveQuantityToLineItemNoNegatives() {
         carrito.addProduct(mockedProduct1);
         int result = carrito.removeQuantityToLineItem(0,5);
+        String result2 = carrito.removeProduct(mockedProduct1);
+        assertEquals("Producto No Se Encuentra En El Carrito",result2);
         assertEquals(0,result);
     }
 
@@ -137,8 +147,8 @@ public class MyCartTest {
         carrito.addProduct(mockedProduct2);
         when(mockedProduct1.getPrice()).thenReturn(100.0);
         when(mockedProduct2.getPrice()).thenReturn(29.99);
-        when(mockedProduct1.isTaxeable()).thenReturn(false);
-        when(mockedProduct2.isTaxeable()).thenReturn(true);
+        when(mockedProduct1.isTaxable()).thenReturn(false);
+        when(mockedProduct2.isTaxable()).thenReturn(true);
         carrito.addQuantityToLineItem(0,2);
         carrito.addQuantityToLineItem(1,1);
         double result = carrito.calculateTax();
@@ -152,8 +162,8 @@ public class MyCartTest {
         carrito.addProduct(mockedProduct2);
         when(mockedProduct1.getPrice()).thenReturn(100.0);
         when(mockedProduct2.getPrice()).thenReturn(29.99);
-        when(mockedProduct1.isTaxeable()).thenReturn(false);
-        when(mockedProduct2.isTaxeable()).thenReturn(true);
+        when(mockedProduct1.isTaxable()).thenReturn(false);
+        when(mockedProduct2.isTaxable()).thenReturn(true);
         carrito.addQuantityToLineItem(0,2);
         carrito.addQuantityToLineItem(1,1);
         double result = carrito.calculateTotal();

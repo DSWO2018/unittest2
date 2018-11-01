@@ -3,7 +3,7 @@ package mx.iteso.ut;
 import java.util.ArrayList;
 
 /**
- * clase.
+ * Clase.
  */
 public class MyCart implements ICart {
 
@@ -88,7 +88,7 @@ public class MyCart implements ICart {
         final double tax = 0.16;
         double total = 0.0;
         for (int i = 0; i < productList.size(); i++) {
-            if (productList.get(i).product.isTaxeable()) {
+            if (productList.get(i).product.isTaxable()) {
                 total += (calculateLineItemSubTotal(i) * tax);
             }
         }
