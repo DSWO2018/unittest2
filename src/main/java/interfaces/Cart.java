@@ -57,29 +57,37 @@ public class Cart implements ICart {
         double tax = 0;
         for (int i = 0; i < productList.size(); i++) {
             if (productList.get(i).prod.isTaxeable()) {
-                tax += (calculateLineItemSubtotal(i) * tax);
+                tax += (calculateLineItemSubtotal(i) * 0.16);
             }
         }
         return tax;
     }
 
     public double calculateLineItemSubtotal(int pos) {
-        return productList.get(pos).qty * productList.get(pos).prod.getPrice();
+        if(pos < productList.size()) {
+            return productList.get(pos).qty * productList.get(pos).prod.getPrice();
+        }
+        return 0;
     }
 
     public int addQuantityToLineItem(int pos, int qty) {
-        productList.get(pos).qty += qty;
-        return productList.get(pos).qty;
+        if(pos < productList.size()) {
+            productList.get(pos).qty += qty;
+            return productList.get(pos).qty;
+        }
+        return 0;
     }
 
     public int removeQuantityToLineItem(int pos, int qty) {
+        if(pos >= productList.size()) {
+            return 0;
+        }
         if (productList.get(pos).qty <= qty) {
             productList.remove(pos);
             return 0;
-        } else {
-            productList.get(pos).qty -= qty;
-            return productList.get(pos).qty;
         }
+        productList.get(pos).qty -= qty;
+        return productList.get(pos).qty;
     }
 }
 
