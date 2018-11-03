@@ -2,36 +2,90 @@ package interfaces.impl;
 
 import interfaces.Product;
 
+/**
+ *
+ */
 public class MyProduct implements Product {
-    public double getPrice() {
-        return 0;
+    /****/
+    private int id;
+    /****/
+    private double price;
+    /****/
+    private String description;
+    /****/
+    private String name;
+    /****/
+    private boolean tax;
+
+    /**
+     * @param i .
+     * @param p .
+     * @param desc .
+     * @param n .
+     * @param t .
+     */
+    public MyProduct(final int i, final double p, final String desc,
+                      final String n, final boolean t) {
+        this.id = i;
+        this.price = p;
+        this.description = desc;
+        this.name = n;
+        this.tax = t;
     }
 
-    public String getDescription() {
-        return null;
+    /**
+     * @return .
+     */
+    public final double getPrice() {
+        return price;
     }
 
-    public void setPrice(double price) {
-
+    /**
+     * @return .
+     */
+    public final String getDescription() {
+        return description;
     }
 
-    public boolean isTaxeable() {
-        return false;
+    /**
+     * @param p .
+     */
+    public final void setPrice(final double p) {
+        this.price = p;
     }
 
-    public void setTaxeable(boolean taxeable) {
-
+    /**
+     * @return .
+     */
+    public final boolean isTaxeable() {
+        return tax;
     }
 
-    public String getName() {
-        return null;
+    /**
+     * @param taxeable .
+     */
+    public final void setTaxeable(final boolean taxeable) {
+        this.tax = taxeable;
     }
 
-    public void setName(String name) {
-
+    /**
+     * @return .
+     */
+    public final String getName() {
+        return name;
     }
 
-    public int getID() {
-        return 0;
+    /**
+     * @param n .
+     */
+    public final void setName(final String n) {
+        this.name = n;
+    }
+
+    /**
+     * @return .
+     */
+    public final int getID() {
+        return id;
     }
 }

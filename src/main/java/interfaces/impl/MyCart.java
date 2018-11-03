@@ -4,99 +4,133 @@ import interfaces.Product;
 
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class MyCart implements interfaces.Cart {
-    ArrayList<ProductStructure> productList;
-    public MyCart(){
+    /****/
+    private ArrayList<ProductStructure> productList;
+    /****/
+    public MyCart() {
         productList = new ArrayList<ProductStructure>();
     }
-    public String addProduct(Product product) {
+
+    /**
+     * @param product .
+     * @return .
+     */
+    public final String addProduct(final Product product) {
         boolean productExists = false;
-        if (product == null){
+        if (product == null) {
             return "Producto No Se Pudo Agregar";
         }
         for (ProductStructure producttemp: productList
              ) {
-            if (producttemp.prod.getID() == product.getID()){
-                producttemp.Qty += 1;
+            if (producttemp.getProd().getID() == product.getID()) {
+                producttemp.setQty(producttemp.getQty() + 1);
                 productExists = true;
                 break;
             }
         }
-        if( productExists == false ){
+        if (!productExists) {
             productList.add(new ProductStructure(product));
             return "Producto Agregado Exitosamente";
-        }
-        else{
+        } else {
             return "Producto Ya Existe En El Carrito";
         }
     }
 
-    public String removeProduct(Product product) {
-        for (ProductStructure producttemp : productList
-                ) {
-            {
-                if (producttemp.prod.getID() == product.getID()) {
+    /**
+     * @param product .
+     * @return .
+     */
+    public final String removeProduct(final Product product) {
+        for (ProductStructure producttemp : productList) {
+                if (producttemp.getProd().getID() == product.getID()) {
                     productList.remove(product);
                     return "Producto Removido Exitosamente";
                 }
-            }
         }
         return "Producto No Se Encuentra En El Carrito";
     }
 
-    public double calculateTotal() {
+    /**
+     * @return .
+     */
+    public final double calculateTotal() {
         double total = calculateSubtotal() + calculateTax();
         return total;
     }
 
-    public double calculateSubtotal() {
+    /**
+     * @return .
+     */
+    public final double calculateSubtotal() {
         double subtotal = 0.0;
-        for (ProductStructure prod : productList){
-            subtotal += prod.prod.getPrice() * prod.Qty;
+        for (int i = 0; i < productList.size(); i++) {
+           subtotal += calculateLineItemSubtotal(i);
         }
         return subtotal;
     }
 
-    public double calculateTax() {
-        double tax = 0.16;
+    /**
+     * @return .
+     */
+    public final double calculateTax() {
+        final double tax = 0.16;
         double totaltax = 0.0;
         for (int i = 0; i < productList.size(); i++) {
-            if (productList.get(i).prod.isTaxeable()) {
+            if (productList.get(i).getProd().isTaxeable()) {
                 totaltax += (calculateLineItemSubtotal(i) * tax);
             }
         }
         return totaltax;
     }
 
-    public double calculateLineItemSubtotal(int pos) {
+    /**
+     * @param pos .
+     * @return .
+     */
+    public final double calculateLineItemSubtotal(final int pos) {
         double itemSubtotal;
-        if(pos < productList.size()){
-            itemSubtotal = productList.get(pos).Qty;
-            return itemSubtotal * productList.get(pos).prod.getPrice();
+        if (pos < productList.size()) {
+            itemSubtotal = productList.get(pos).getQty();
+            return itemSubtotal * productList.get(pos).getProd().getPrice();
         } else {
             return 0;
         }
     }
 
-    public int addQuantityToLineItem(int pos, int qty) {
+    /**
+     * @param pos .
+     * @param qty .
+     * @return .
+     */
+    public final int addQuantityToLineItem(final int pos, final int qty) {
         int quantity;
-        if(pos < productList.size()){
-            productList.get(pos).Qty += qty;
-            quantity = productList.get(pos).Qty;
+        if (pos < productList.size()) {
+            productList.get(pos).setQty(productList.get(pos).getQty() + qty);
+            quantity = productList.get(pos).getQty();
             return quantity;
-        } else
+        } else {
             return -1;
+        }
     }
 
-    public int removeQuantityToLineItem(int pos, int qty) {
+    /**
+     * @param pos .
+     * @param qty .
+     * @return .
+     */
+    public final int removeQuantityToLineItem(final int pos, final int qty) {
         int quantity;
-        if(pos < productList.size()){
-            productList.get(pos).Qty -= qty;
-            if(productList.get(pos).Qty <= 0){
+        if (pos < productList.size()) {
+            productList.get(pos).setQty(productList.get(pos).getQty() - qty);
+            if (productList.get(pos).getQty() <= 0) {
                 productList.remove(pos);
                 return 0;
-            } else{
-                quantity = productList.get(pos).Qty;
+            } else {
+                quantity = productList.get(pos).getQty();
                 return quantity;
             }
         } else {
@@ -104,11 +138,48 @@ public class MyCart implements interfaces.Cart {
         }
     }
 }
-class ProductStructure{
-    Product prod;
-    int Qty = 0;
-    ProductStructure(Product receivedProduct){
+
+/**
+ *
+ */
+class ProductStructure {
+    /****/
+    private Product prod;
+    /****/
+    private int qty = 0;
+    /**
+     * @param receivedProduct .
+     */
+    ProductStructure(final Product receivedProduct) {
         prod = receivedProduct;
-        Qty += 1;
+        qty += 1;
+    }
+
+    /**
+     * @return .
+     */
+    public Product getProd() {
+        return prod;
+    }
+
+    /**
+     * @param p .
+     */
+    public void setProd(final Product p) {
+        this.prod = p;
+    }
+
+    /**
+     * @return .
+     */
+    public int getQty() {
+        return qty;
+    }
+
+    /**
+     * @param q .
+     */
+    public void setQty(final int q) {
+        this.qty = q;
     }
 }
