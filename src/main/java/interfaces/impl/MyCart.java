@@ -8,6 +8,13 @@ public class MyCart implements interfaces.Cart {
 
     ArrayList<ProductStructure> productList;
 
+    @Override
+    public String toString() {
+        return "MyCart{" +
+                "productList=" + productList +
+                '}';
+    }
+
     public MyCart() {
         productList = new ArrayList<ProductStructure>();
     }
@@ -103,6 +110,14 @@ public class MyCart implements interfaces.Cart {
     class ProductStructure {
         Product product;
         int Qty = 0;
+
+        @Override
+        public String toString() {
+            return "ProductStructure{" +
+                    "product=" + product +
+                    ", Qty=" + Qty +
+                    '}';
+        }
 
         ProductStructure(Product receivedProduct) {
             product = receivedProduct;
