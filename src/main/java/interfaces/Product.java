@@ -1,44 +1,47 @@
 package interfaces;
 
+/**
+ * int prod.
+ */
 public interface Product  {
         /**
          *get ID.
          * @return         */
-        public int getID();
+         int getID();
 
         /**
          *Get price.
          * @return    */
-        public double getPrice();
+         double getPrice();
 
         /**
          *GET description.
          * @return         */
-        public String getDescription();
+         String getDescription();
 
         /**
          *set price.
          * @param price         */
-        public void setPrice(double price);
+         void setPrice(double price);
 
         /**
          *TAXEABLE?.
          * @return         */
-        public boolean isTaxeable();
+         boolean isTaxeable();
 
         /**
          * set taxeable.
-         * @param         */
-        public void setTaxeable(boolean taxable);
+         * @param taxable        */
+         void setTaxeable(boolean taxable);
 
         /**
          *get name.
          * @return         */
-        public String getName();
+         String getName();
 
         /**
          *set name.
          * @param name         */
-        public void setName(String name);
+         void setName(String name);
 
 }
