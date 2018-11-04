@@ -11,7 +11,7 @@ public class MyProductTest {
 
     @Before
     public void setUp(){
-        product = new MyProduct(1, 1500.00, "Mario Kart 8 Delux", "Videogame", true);
+        product = new MyProduct(1, 1500.00, "Mario Kart 8 Deluxe", "Videogame", true);
     }
 
     @Test
