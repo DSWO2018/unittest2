@@ -1,110 +1,149 @@
+
 package interfaces.impl;
 
 import interfaces.Product;
 
 import java.util.ArrayList;
 
+/**MyCart Class.*/
 public class MyCart implements interfaces.Cart {
-    ArrayList<ProductStructure> productList;
-    public MyCart(){
+    /** var productList.*/
+    private ArrayList<ProductStructure> productList;
+    /** var IVA.*/
+    private static final double IVA = 0.16;
+    /** MyCart constructor.*/
+    public MyCart() {
         productList = new ArrayList<ProductStructure>();
     }
-    public String addProduct(Product product) {
+    /**addProduct Function.
+     * @param product .
+     * @return String*/
+    public final String addProduct(final Product product) {
         boolean productExists = false;
-        if (product == null){
+        if (product == null) {
             return "Producto No Se Pudo Agregar";
         }
         for (ProductStructure producttemp: productList
              ) {
-            if (producttemp.prod.getId() == product.getId()){
-                producttemp.Qty += 1;
+            if (producttemp.getProd().getId() == product.getId()) {
+                producttemp.setQty(producttemp.getQty() + 1);
                 productExists = true;
                 break;
             }
         }
-        if( productExists == false ){
+        if (!productExists) {
             productList.add(new ProductStructure(product));
             return "Producto Agregado Exitosamente";
-        }
-        else{
+        } else {
             return "Producto Ya Existe En El Carrito";
         }
     }
-
-    public String removeProduct(Product product) {
-        for (ProductStructure producttemp : productList
-                ) {
-            {
-                if (producttemp.prod.getId() == product.getId()) {
-                    productList.remove(product);
-                    return "Producto Removido Exitosamente";
-                }
+    /**removeProduct Function.
+     * @param product .
+     * @return String*/
+    public final String removeProduct(final Product product) {
+        for (ProductStructure producttemp : productList) {
+            if (producttemp.getProd().getId() == product.getId()) {
+                productList.remove(product);
+                return "Producto Removido Exitosamente";
             }
         }
         return "Producto No Se Encuentra En El Carrito";
     }
-
-    public double calculateTotal() {
+    /**calculateTotal Function.
+     * @return double*/
+    public final double calculateTotal() {
         return calculateSubtotal() + calculateTax();
     }
-
-    public double calculateSubtotal() {
+    /**calculateSubtotal Function.
+     * @return double*/
+    public final double calculateSubtotal() {
         double sub = 0.0;
-        for (ProductStructure product : productList){
-            sub += product.prod.getPrice() * product.Qty;
+        for (ProductStructure product : productList) {
+            sub += product.getProd().getPrice() * product.getQty();
         }
         return sub;
     }
-
-    public double calculateTax() {
+    /**calculateTax Function.
+     * @return String*/
+    public final double calculateTax() {
         double tax = 0.0;
         for (int i = 0; i < productList.size(); i++) {
-            if (productList.get(i).prod.isTaxeable()) {
-                tax += (calculateLineItemSubtotal(i) * 0.16);
+            if (productList.get(i).getProd().isTaxeable()) {
+                tax += (calculateLineItemSubtotal(i) * IVA);
             }
         }
         return tax;
     }
-
-    public double calculateLineItemSubtotal(int pos) {
+    /**calculateLineItemSubtotal Function.
+     * @param pos .
+     * @return double*/
+    public final double calculateLineItemSubtotal(final int pos) {
         double itemSubtotal;
-        if(pos < productList.size()){
-            itemSubtotal = productList.get(pos).Qty;
-            return itemSubtotal * productList.get(pos).prod.getPrice();
+        if (pos < productList.size()) {
+            itemSubtotal = productList.get(pos).getQty();
+            return itemSubtotal * productList.get(pos).getProd().getPrice();
         } else {
             return 0;
         }
     }
-
-    public int addQuantityToLineItem(int pos, int qty) {
+    /**addQuantityToLineItem Function.
+     * @param pos .
+     * @param qty .
+     * @return int*/
+    public final int addQuantityToLineItem(final int pos, final int qty) {
         int quantity;
-        if(pos < productList.size()){
-            productList.get(pos).Qty += qty;
-            quantity = productList.get(pos).Qty;
+        if (pos < productList.size()) {
+            productList.get(pos).setQty(productList.get(pos).getQty() + qty);
+            quantity = productList.get(pos).getQty();
             return quantity;
-        } else
+        } else {
             return -1;
+        }
     }
-
-    public int removeQuantityToLineItem(int pos, int qty) {
-        if(pos < productList.size()){
-            productList.get(pos).Qty -= qty;
-            if(productList.get(pos).Qty <= 0){
+    /**removeQuantityToLineItem Function.
+     * @param pos .
+     * @param qty .
+     * @return int*/
+    public final int removeQuantityToLineItem(final int pos, final int qty) {
+        if (pos < productList.size()) {
+            productList.get(pos).setQty(productList.get(pos).getQty() - qty);
+            if (productList.get(pos).getQty() <= 0) {
                 productList.remove(pos);
                 return 0;
-            } else{
-                return productList.get(pos).Qty;
+            } else {
+                return productList.get(pos).getQty();
             }
         } else {
             return -1;
         }
     }
 }
-class ProductStructure{
-    Product prod;
-    int Qty = 0;
-    ProductStructure(Product receivedProduct){
+/**Class ProductStructure.*/
+class ProductStructure {
+    /** var prod.*/
+    private  Product prod;
+    /** var qty.*/
+    private int qty = 0;
+    /** Constructor .
+     * @param receivedProduct .*/
+    ProductStructure(final Product receivedProduct) {
         prod = receivedProduct;
-        Qty += 1;
+        qty += 1;
+    }
+    /**getQty Function.
+     * @return int*/
+    public int getQty() {
+        return qty;
+    }
+    /**getProduct Function.
+     * @return Product*/
+    public Product getProd() {
+        return prod;
+    }
+    /**setQty Function.
+     * @param pqty .*/
+    public void setQty(final int pqty) {
+        qty = pqty;
     }
 }

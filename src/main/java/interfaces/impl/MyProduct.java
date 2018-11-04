@@ -1,52 +1,72 @@
 package interfaces.impl;
 
 import interfaces.Product;
-
+/** Class MyProduct.*/
 public class MyProduct implements Product {
-
+    /**Var id.*/
     private String id;
+    /**Var name.*/
     private String name;
+    /**Var description.*/
     private String description;
+    /**Var price.*/
     private double price;
+    /**Var taxeable.*/
     private boolean taxeable;
 
-    public MyProduct(String id, String name, String description, double price, boolean taxeable){
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.taxeable = taxeable;
+    /**Constructor.
+     * @param pid .
+     * @param pname .
+     * @param pdescription .
+     * @param pprice .
+     * @param ptaxeable .*/
+    public MyProduct(final String pid, final String pname,
+                     final String pdescription,
+                     final double pprice, final boolean ptaxeable) {
+        this.id = pid;
+        this.name = pname;
+        this.description = pdescription;
+        this.price = pprice;
+        this.taxeable = ptaxeable;
     }
-
-    public double getPrice() {
+    /**getPrice Function.
+     * @return double*/
+    public final double getPrice() {
         return price;
     }
-
-    public String getDescription() {
+    /**getDescription Function.
+     * @return String*/
+    public final String getDescription() {
         return description;
     }
-
-    public void setPrice(double price) {
-        this.price = price;
+    /**setPrice Function.
+     * @param pprice .*/
+    public final void setPrice(final double pprice) {
+        this.price = pprice;
     }
-
-    public boolean isTaxeable() {
+    /**isTaxeable Function.
+     * @return boolean*/
+    public final boolean isTaxeable() {
         return taxeable;
     }
-
-    public void setTaxeable(boolean taxeable) {
-        this.taxeable = taxeable;
+    /**setTaxeable Function.
+     * @param ptaxeable .*/
+    public final void setTaxeable(final boolean ptaxeable) {
+        this.taxeable = ptaxeable;
     }
-
-    public String getName() {
+    /**getName Function.
+     * @return String .*/
+    public final String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
+    /**setName Function.
+     * @param pname .*/
+    public final void setName(final String pname) {
+        this.name = pname;
     }
-
-    public String getId() {
+    /**getId Function.
+     * @return String*/
+    public final String getId() {
         return id;
     }
 }
