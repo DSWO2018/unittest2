@@ -2,28 +2,46 @@ package interfaces;
 
 import java.util.ArrayList;
 
+/**
+ * Cart class.
+ */
 public class Cart implements ICart {
+    /**
+     * The product list.
+     */
     private ArrayList<ProductStructure> productList;
 
+    /**
+     * Tax constant.
+     */
+    private final double taxConstant = 0.16;
+    /**
+     * Constructor as.
+     */
     public Cart() {
         productList = new ArrayList<ProductStructure>();
     }
 
-    public String addProduct(IProduct product) {
+    /**
+     *
+     * @param product to be added.
+     * @return message.
+     */
+    public String addProduct(final IProduct product) {
         boolean productExists = false;
         if (product == null) {
             return "Producto No Se Pudo Agregar";
         }
 
         for (ProductStructure producttemp: productList) {
-            if (producttemp.prod.getID().equals(product.getID())){
-                producttemp.qty += 1;
+            if (producttemp.getProd().getID().equals(product.getID())) {
+                producttemp.setQty(producttemp.getQty() + 1);
                 productExists = true;
                 break;
             }
         }
 
-        if(!productExists){
+        if (!productExists) {
             productList.add(new ProductStructure(product));
             return "Producto Agregado Exitosamente";
         } else {
@@ -31,9 +49,14 @@ public class Cart implements ICart {
         }
     }
 
-    public String removeProduct(IProduct product) {
+    /**
+     *
+     * @param product to be removed.
+     * @return message.
+     */
+    public String removeProduct(final IProduct product) {
         for (ProductStructure producttemp : productList) {
-            if (producttemp.prod.getID().equals(product.getID())) {
+            if (producttemp.getProd().getID().equals(product.getID())) {
                 productList.remove(product);
                 return "Producto Removido Exitosamente";
             }
@@ -41,10 +64,18 @@ public class Cart implements ICart {
         return "Producto No Se Encuentra En El Carrito";
     }
 
+    /**
+     *
+     * @return the total cart.
+     */
     public double calculateTotal() {
         return calculateSubtotal() + calculateTax();
     }
 
+    /**
+     *
+     * @return the subtotal cart.
+     */
     public double calculateSubtotal() {
         double subtotal = 0;
         for (int i = 0; i < productList.size(); i++) {
@@ -53,50 +84,111 @@ public class Cart implements ICart {
         return subtotal;
     }
 
+    /**
+     *
+     * @return the tax cart.
+     */
     public double calculateTax() {
         double tax = 0;
         for (int i = 0; i < productList.size(); i++) {
-            if (productList.get(i).prod.isTaxeable()) {
-                tax += (calculateLineItemSubtotal(i) * 0.16);
+            if (productList.get(i).getProd().isTaxeable()) {
+                tax += (calculateLineItemSubtotal(i) * taxConstant);
             }
         }
         return tax;
     }
 
-    public double calculateLineItemSubtotal(int pos) {
-        if(pos < productList.size()) {
-            return productList.get(pos).qty * productList.get(pos).prod.getPrice();
+    /**
+     *
+     * @param pos product position in line.
+     * @return subtotal.
+     */
+    public double calculateLineItemSubtotal(final int pos) {
+        if (pos < productList.size()) {
+            return productList.get(pos).getQty()
+                    * productList.get(pos).getProd().getPrice();
         }
         return 0;
     }
 
-    public int addQuantityToLineItem(int pos, int qty) {
-        if(pos < productList.size()) {
-            productList.get(pos).qty += qty;
-            return productList.get(pos).qty;
+    /**
+     *
+     * @param pos product position in line.
+     * @param qty quantity to add.
+     * @return new quantity.
+     */
+    public int addQuantityToLineItem(final int pos, final int qty) {
+        if (pos < productList.size()) {
+            productList.get(pos).setQty(productList.get(pos).getQty() + qty);
+            return productList.get(pos).getQty();
         }
         return 0;
     }
 
-    public int removeQuantityToLineItem(int pos, int qty) {
-        if(pos >= productList.size()) {
+    /**
+     *
+     * @param pos product position in line.
+     * @param qty quantity to remove.
+     * @return new quantity.
+     */
+    public int removeQuantityToLineItem(final int pos, final int qty) {
+        if (pos >= productList.size()) {
             return 0;
         }
-        if (productList.get(pos).qty <= qty) {
+        if (productList.get(pos).getQty() <= qty) {
             productList.remove(pos);
             return 0;
         }
-        productList.get(pos).qty -= qty;
-        return productList.get(pos).qty;
+
+        productList.get(pos).setQty(productList.get(pos).getQty() - qty);
+        return productList.get(pos).getQty();
     }
 }
 
+/**
+ * ProductStructure holding the products.
+ */
 class ProductStructure {
-    IProduct prod;
-    int qty = 0;
+    /**
+     * Product.
+     */
+    private IProduct prod;
 
-    ProductStructure(IProduct receivedProduct) {
+    /**
+     * Quantity.
+     */
+    private int qty = 0;
+
+    /**
+     *
+     * @param receivedProduct product to add.
+     */
+    ProductStructure(final IProduct receivedProduct) {
         prod = receivedProduct;
         qty += 1;
+    }
+
+    /**
+     *
+     * @return product.
+     */
+    public IProduct getProd() {
+        return prod;
+    }
+
+    /**
+     *
+     * @return quantity.
+     */
+    public int getQty() {
+        return qty;
+    }
+
+    /**
+     *
+     * @param quantity quantity to add.
+     */
+    public void setQty(final int quantity) {
+        this.qty = quantity;
     }
 }
